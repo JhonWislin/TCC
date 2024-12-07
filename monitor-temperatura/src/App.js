@@ -21,7 +21,7 @@ function App() {
   const [maxTemp, setMaxTemp] = useState(25); // Temperatura máxima
 
   // Função para buscar sensores reais
-  const fetchSensors = async () => {
+  const buscaSensores = async () => {
     try {
       const response = await fetch(`${API_BASE}/discovery/resources?capability=sensor-temperature`);
       // if (!response.ok) throw new Error('Erro ao buscar sensores');
@@ -44,7 +44,7 @@ function App() {
   };
 
   // Função para buscar temperaturas
-  const fetchTemperatures = async sensorsList => {
+  const buscaTemperaturas = async sensorsList => {
     try {
       const updatedSensors = await Promise.all(
         sensorsList.map(async sensor => {
@@ -100,8 +100,8 @@ function App() {
 
   // Função principal que chama as outras
   const updateSensors = useCallback(async () => {
-    await fetchSensors(); // Atualiza os sensores reais, se disponíveis
-    const updatedSensors = await fetchTemperatures(sensors); // Atualiza as temperaturas
+    await buscaSensores(); // Atualiza os sensores reais, se disponíveis
+    const updatedSensors = await buscaTemperaturas(sensors); // Atualiza as temperaturas
     const verificaSensors = verificaTemperaturas(updatedSensors); // Checa alertas
     setSensors(verificaSensors); // Atualiza o estado com os dados atualizados
 

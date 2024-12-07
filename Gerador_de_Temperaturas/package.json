@@ -1,0 +1,17 @@
+{
+  "name": "gerador_de_temperaturas",
+  "version": "1.0.0",
+  "main": "GeraDados.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "script1": "node GeraDados.js",
+    "script2": "node criaSensores.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
+}
