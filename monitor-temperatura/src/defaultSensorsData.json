@@ -1,0 +1,55 @@
+{
+    "resources": [
+      {
+        "uuid": "060ace59-44d0-4436-987b-654cc5d0467c",
+        "description": "station-1",
+        "lat": -23.5158948777673,
+        "lon": -47.4656080735414,
+        "temperatureData": [
+          { "date": "2024-11-12T12:19:06.566Z", "value": 17 },
+          { "date": "2024-11-12T12:19:11.479Z", "value": 20 }
+        ]
+      },
+      {
+        "uuid": "9e767a7e-4183-413c-8cfe-57f707666e59",
+        "description": "station-2",
+        "lat": -29.5158948777673,
+        "lon": -49.4656080835414,
+        "temperatureData": [
+          { "date": "2024-11-12T12:19:11.479Z", "value": 17 },
+          { "date": "2024-11-12T12:19:16.482Z", "value": 18 }
+        ]
+      },
+      {
+        "uuid": "63b4521e-35a5-4bb6-983b-6779a646dc81",
+        "description": "station-3",
+        "lat": -27.5158948777673,
+        "lon": -45.4656080735414,
+        "temperatureData": [
+          { "date": "2024-11-12T12:19:16.482Z", "value": 17 },
+          { "date": "2024-11-12T12:19:20.582Z", "value": 22 }
+        ]
+      },
+      {
+        "uuid": "2152ce60-95b1-4d4a-bd6c-ed4c372e6e2a",
+        "description": "station-4",
+        "lat": -28.5158948777673,
+        "lon": -42.4656080735414,
+        "temperatureData": [
+          { "date": "2024-11-12T12:19:11.479Z", "value": 32 },
+          { "date": "2024-11-12T12:19:16.482Z", "value": 33 }
+        ]
+      },
+      {
+        "uuid": "737179cd-6689-4fa2-99a8-361721d64e7b",
+        "description": "station-5",
+        "lat": -23.5158948778673,
+        "lon": -45.4656080735414,
+        "temperatureData": [
+          { "date": "2024-11-12T12:19:12.579Z", "value": 17 },
+          { "date": "2024-11-12T12:19:16.482Z", "value": 21 }
+        ]
+      }
+    ]
+  }
+  

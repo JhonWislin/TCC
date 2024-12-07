@@ -1,0 +1,80 @@
+/* Geral */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+.card.alert {
+  border: 2px solid orange;
+  background-color: #ffe5e5;
+}
+
+.card.alertIncendio {
+  border: 2px solid red;
+  background-color: #ffe5e5;
+}
+
+.warningIncendio {
+  color: red;
+  font-weight: bold;
+}
+
+.warningAlert {
+  color: orange;
+  font-weight: bold;
+}
+
+/* Título */
+.title {
+  text-align: center;
+  font-size: 2rem;
+  margin: 20px 0;
+  color: #333;
+}
+
+/* Contêiner de cards */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* Estilo dos cards */
+.card {
+  width: 300px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.temperature-settings-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.temperature-settings {
+  display: flex;
+  flex-direction: column; /* Ou "row" para lado a lado */
+  align-items: center;
+  gap: 15px; /* Espaçamento entre os campos */
+}
+
+.temperature-settings label {
+  font-size: 16px;
+}
+
+.temperature-settings input {
+  margin-left: 10px;
+  padding: 5px;
+  font-size: 14px;
+  width: 60px;
+}
