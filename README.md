@@ -1,5 +1,5 @@
 # TCC
 
-# Repositorio para armazenar arquivos do TCC.
+Repositorio para armazenar arquivos do TCC.
 
-# monitor-temperatura: Aplicação para monitoramento de temperaturas em estações de metro.
+- monitor-temperatura: Aplicação para monitoramento de temperaturas em estações de metro.
