@@ -6,26 +6,74 @@ body {
   padding: 0;
 }
 
-.card.alert {
-  border: 2px solid orange;
-  background-color: #ffe5e5;
+.card.alert-incendio {
+  background-color: #ff4d4d; /* Vermelho para incêndio */
+  border-color: #cc0000;
 }
 
-.card.alertIncendio {
-  border: 2px solid red;
-  background-color: #ffe5e5;
+.card.alert-muito-acima {
+  background-color: #ff9999; /* Tons mais claros */
+  border-color: #cc6666;
 }
 
+.card.alert-acima {
+  background-color: #ffcc99;
+  border-color: #cc9966;
+}
+
+.card.alert-parcial-acima {
+  background-color: #ffe6cc;
+  border-color: #ccb399;
+}
+
+.card.alert-muito-abaixo {
+  background-color: #99ccff; /* Azul claro */
+  border-color: #6699cc;
+}
+
+.card.alert-abaixo {
+  background-color: #99e6ff;
+  border-color: #66b3cc;
+}
+
+.card.alert-parcial-abaixo {
+  background-color: #ccf2ff;
+  border-color: #99d6ff;
+}
 .warningIncendio {
   color: red;
   font-weight: bold;
 }
 
-.warningAlert {
+.warningAlertAscAlt {
+  color: rgb(255, 81, 0);
+  font-weight: bold;
+}
+
+.warningAlertAsc {
   color: orange;
   font-weight: bold;
 }
 
+.warningAlertAscParc {
+  color: yellow;
+  font-weight: bold;
+}
+
+.warningAlertDecAlt {
+  color: blue;
+  font-weight: bold;
+}
+
+.warningAlertDec{
+  color: rgb(0, 174, 255);
+  font-weight: bold;
+}
+
+.warningAlertDecParc {
+  color: rgb(0, 255, 213);
+  font-weight: bold;
+}
 /* Título */
 .title {
   text-align: center;

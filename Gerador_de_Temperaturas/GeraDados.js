@@ -35,6 +35,7 @@ const buscaSensores = async () => {
 const atualizaSensores = async () => {
   try {
     for (const sensor of sensoresMetro) {
+      
       const newTemperature = geraTemperatura(TEMP_MIN, TEMP_MAX); // Gera temperatura
 
       // Envia a nova temperatura para o servidor
@@ -63,10 +64,7 @@ const atualizaSensores = async () => {
 //Processo principal
 const main = async () => {
   await buscaSensores(); //Busca UUID dos sensores
-
-  if (sensoresMetro.length > 0) { //Se houver sensores, gera e envia temperaturas
-    setInterval(atualizaSensores, 15000); //Com base nos UUIDs, gera e envia temperaturas a cada 15 segundos
-  }
+  setInterval(atualizaSensores, 15000); //Com base nos UUIDs, gera e envia temperaturas a cada 15 segundos
 };
 
 // Executa o script

@@ -1,6 +1,7 @@
 {
   "name": "gerador_de_temperaturas",
   "version": "1.0.0",
+  "type": "module",
   "main": "GeraDados.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
