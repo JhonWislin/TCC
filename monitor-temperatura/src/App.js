@@ -22,8 +22,8 @@ const defaultSensors = Array.from({ length: 9 }, (_, id) => ({
 
 function App() {
   const [sensors, setSensors] = useState(defaultSensors); // Seta os sensores por padrão
-  const [minTemp, setMinTemp] = useState(15); // Temperatura mínima, o estádo inicial é colocado como 15
-  const [maxTemp, setMaxTemp] = useState(25); // Temperatura máxima, o estádo inicial é colocado como 25
+  const [minTemp, setMinTemp] = useState(15); // Temperatura mínima, o estádo inicial é colocado como 15 °C
+  const [maxTemp, setMaxTemp] = useState(25); // Temperatura máxima, o estádo inicial é colocado como 25 °C
 
   // // Função para buscar sensores reais
   // const buscaSensores = async () => {
@@ -91,45 +91,46 @@ function App() {
       let alertDecLimit = false;
       let alertDecAltLimit = false;
 
-      if (sensor.lastTemperature > maxTemp) {
+      if (sensor.lastTemperature !== '-' && sensor.lastTemperature > maxTemp) {
         let variaTemperaturaMax = Math.abs(sensor.lastTemperature - maxTemp)
         console.log(variaTemperaturaMax)
         //Temperatura parcialmente acima do limite
-        if (sensor.lastTemperature !== '-' && (variaTemperaturaMax <= 5)) {
+        if (variaTemperaturaMax <= 5) {
           alertAscParcLimit = true;
         }
 
         //Temperatura acima do limite
-        else if (sensor.lastTemperature !== '-' && (variaTemperaturaMax <= 10 && variaTemperaturaMax > 5)) {
+        else if (variaTemperaturaMax > 5 && variaTemperaturaMax <= 10) {
           alertAscLimit = true;
         }
 
         //Temperatura muito acima do limite
-        else if (sensor.lastTemperature !== '-' && (variaTemperaturaMax > 10)) {
+        else if (variaTemperaturaMax > 10 && variaTemperaturaMax <= 15) {
           alertAscAltLimit = true;
         }
+        else { //15 °C acima, principio de incêndio 
+          alertInc = true;
+        }
       }
-      else if (sensor.lastTemperature < minTemp) {
+      else if (sensor.lastTemperature !== '-' && sensor.lastTemperature < minTemp) {
         let variaTemperaturaMin = Math.abs(sensor.lastTemperature - minTemp)
         //Temperatura parcialmente abaixo do limite
-        if (sensor.lastTemperature !== '-' && (variaTemperaturaMin <= 5)) {
+        if (variaTemperaturaMin <= 5) {
           alertDecParcLimit = true;
         }
 
         //Temperatura abaixo do limite
-        else if (sensor.lastTemperature !== '-' && (variaTemperaturaMin <= 10 && variaTemperaturaMin > 5)) {
+        else if (variaTemperaturaMin <= 10 && variaTemperaturaMin > 5) {
           alertDecLimit = true;
         }
 
         //Temperatura muito abaixo do limite
-        else if (sensor.lastTemperature !== '-' && (variaTemperaturaMin > 10)) {
+        else if (variaTemperaturaMin > 10 && variaTemperaturaMin <= 15) {
           alertDecAltLimit = true;
         }
-      }
-
-      // Verifica se a temperatura está fora do limite de incêndio
-      if (sensor.lastTemperature !== '-' && (sensor.lastTemperature > maxTemp * 3)) {
-        alertInc = true;
+        else { //15 °C acima, principio de incêndio 
+          alertInc = true;
+        }
       }
 
       return {
@@ -238,13 +239,13 @@ const getCardClass = (sensor) => {
               <strong>Última Atualização:</strong>{' '}
               {sensor.lastDate !== '-' ? new Date(sensor.lastDate).toLocaleString() : '-'}
             </p>
-            {sensor.alertAscParcLimit && !sensor.alertInc && <p className="warningAlertAscParc">⚠️ Temperatura parcialmente acima do limite permitido!</p>}
-            {sensor.alertAscLimit && !sensor.alertInc && <p className="warningAlertAsc">⚠️ Temperatura acima do limite permitido!</p>}
-            {sensor.alertAscAltLimit && !sensor.alertInc && <p className="warningAlertAscAlt">⚠️ Temperatura muito acima do limite permitido!</p>}
-            {sensor.alertDecParcLimit && !sensor.alertInc && <p className="warningAlertDecParc">⚠️ Temperatura parcialmente abaixo do limite permitido!</p>}
-            {sensor.alertDecLimit && !sensor.alertInc && <p className="warningAlertDec">⚠️ Temperatura abaixo do limite permitido!</p>}
-            {sensor.alertDecAltLimit && !sensor.alertInc && <p className="warningAlertDecAlt">⚠️ Temperatura muito abaixo do limite permitido!</p>}
-            {sensor.alertInc && <p className="warningIncendio">⚠️ Possível principio de incêndio!</p>}
+            {sensor.alertAscParcLimit && !sensor.alertInc && <p><strong>⚠️ Temperatura parcialmente acima do limite permitido!</strong></p>}
+            {sensor.alertAscLimit && !sensor.alertInc && <p><strong>⚠️ Temperatura acima do limite permitido!</strong></p>}
+            {sensor.alertAscAltLimit && !sensor.alertInc && <p><strong>⚠️ Temperatura muito acima do limite permitido!</strong></p>}
+            {sensor.alertDecParcLimit && !sensor.alertInc && <p><strong>⚠️ Temperatura parcialmente abaixo do limite permitido!</strong></p>}
+            {sensor.alertDecLimit && !sensor.alertInc && <p><strong>⚠️ Temperatura abaixo do limite permitido!</strong></p>}
+            {sensor.alertDecAltLimit && !sensor.alertInc && <p><strong>⚠️ Temperatura muito abaixo do limite permitido!</strong></p>}
+            {sensor.alertInc && <p><strong>⚠️ Possível principio de incêndio!</strong></p>}
           </div>
         ))}
       </div>
