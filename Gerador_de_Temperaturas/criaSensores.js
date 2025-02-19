@@ -1,132 +1,133 @@
-// Esse script faz a criação de 9 estações
-// É criado uma capacidade de sensor de temperatura
-// Essa capacidade é atribuida a cada estação de metro (seasons)
+// This script creates 9 stations
+// A temperature sensor capability is created
+// This capability is assigned to each subway station (stations)
 
-const seasons = [
-  {
-      description: "station-1", // Descrição do recurso
-      capabilities: ["sensor-temperature"], // Capacidades do recurso
-      status: "active", // Status do recurso
-      lat: "-23.51589487776733", // Latitude do recurso
-      lon: "-47.465608073541446", // Longitude do recurso
-  },
-  {
-      description: "station-2", // Descrição do recurso
-      capabilities: ["sensor-temperature"], // Capacidades do recurso
-      status: "active", // Status do recurso
-      lat: "-29.51589487776733", // Latitude do recurso
-      lon: "-49.465608083541446", // Longitude do recurso
-  },
-  {
-      description: "station-3", // Descrição do recurso
-      capabilities: ["sensor-temperature"], // Capacidades do recurso
-      status: "active", // Status do recurso
-      lat: "-27.51589487776733", // Latitude do recurso
-      lon: "-45.465608073541446", // Longitude do recurso
-  },
-  {
-      description: "station-4", // Descrição do recurso
-      capabilities: ["sensor-temperature"], // Capacidades do recurso
-      status: "active", // Status do recurso
-      lat: "-28.51589487776733", // Latitude do recurso
-      lon: "-42.465608073541446", // Longitude do recurso
-  },
-  {
-      description: "station-5", // Descrição do recurso
-      capabilities: ["sensor-temperature"], // Capacidades do recurso
-      status: "active", // Status do recurso
-      lat: "-23.51589487786733", // Latitude do recurso
-      lon: "-45.465608073541446", // Longitude do recurso
-  },
-  {
-      description: "station-6", // Descrição do recurso
-      capabilities: ["sensor-temperature"], // Capacidades do recurso
-      status: "active", // Status do recurso
-      lat: "-22.51589487776733", // Latitude do recurso
-      lon: "-47.465608073541446", // Longitude do recurso
-  },
-  {
-      description: "station-7", // Descrição do recurso
-      capabilities: ["sensor-temperature"], // Capacidades do recurso
-      status: "active", // Status do recurso
-      lat: "-23.51589487776733", // Latitude do recurso
-      lon: "-47.400608073541446", // Longitude do recurso
-  },
-  {
-      description: "station-8", // Descrição do recurso
-      capabilities: ["sensor-temperature"], // Capacidades do recurso
-      status: "active", // Status do recurso
-      lat: "-23.51589487776733", // Latitude do recurso
-      lon: "-47.465608073581446", // Longitude do recurso
-  },
-  {
-      description: "station-9", // Descrição do recurso
-      capabilities: ["sensor-temperature"], // Capacidades do recurso
-      status: "active", // Status do recurso
-      lat: "-23.51589487776733", // Latitude do recurso
-      lon: "-47.465638073541446", // Longitude do recurso
-  },
-];
-
-// A função main faz uma requisição fetch para criar a capacidade
-// Com a capacidade criada, ela é atribuida a cada recurso
-// É feita uma subscrição desses recursos
-async function main() {
-  const capacidade = await fetch("http://10.10.10.104:8000/catalog/capabilities", { // Requisição para criar a capacidade
-      method: "POST", // Método POST
-      headers: { // Headers da requisição
-          "Content-Type": "application/json", // Tipo do conteúdo da requisição
-      },
-      body: JSON.stringify({
-          name: "sensor-temperature", // Nome da capacidade sendo criada
-          description: `Capability to sensor of temperature`, // Define a descrição da capacidade
-          capability_type: "sensor", // Tipo da capacidade (sensor)
-      }),
-  });
-
-  console.log(capacidade.status); // Status da requisição de criação da capacidade
-  if (capacidade.status !== 201) {
-      console.log("Erro ao criar a capacidade");
-      return;
+const stations = [
+    {
+        description: "station-1-teste", // Resource description
+        capabilities: ["sensor-temperature"], // Resource capabilities
+        status: "active", // Resource status
+        lat: "-23.51589487776733", // Resource latitude
+        lon: "-47.465608073541446", // Resource longitude
+    },
+    {
+        description: "station-2-teste",
+        capabilities: ["sensor-temperature"],
+        status: "active",
+        lat: "-29.51589487776733",
+        lon: "-49.465608083541446",
+    },
+    {
+        description: "station-3-teste",
+        capabilities: ["sensor-temperature"],
+        status: "active",
+        lat: "-27.51589487776733",
+        lon: "-45.465608073541446",
+    },
+    {
+        description: "station-4-teste",
+        capabilities: ["sensor-temperature"],
+        status: "active",
+        lat: "-28.51589487776733",
+        lon: "-42.465608073541446",
+    },
+    {
+        description: "station-5-teste",
+        capabilities: ["sensor-temperature"],
+        status: "active",
+        lat: "-23.51589487786733",
+        lon: "-45.465608073541446",
+    },
+    {
+        description: "station-6-teste",
+        capabilities: ["sensor-temperature"],
+        status: "active",
+        lat: "-22.51589487776733",
+        lon: "-47.465608073541446",
+    },
+    {
+        description: "station-7-teste",
+        capabilities: ["sensor-temperature"],
+        status: "active",
+        lat: "-23.51589487776733",
+        lon: "-47.400608073541446",
+    },
+    {
+        description: "station-8-teste",
+        capabilities: ["sensor-temperature"],
+        status: "active",
+        lat: "-23.51589487776733",
+        lon: "-47.465608073581446",
+    },
+    {
+        description: "station-9-teste",
+        capabilities: ["sensor-temperature"],
+        status: "active",
+        lat: "-23.51589487776733",
+        lon: "-47.465638073541446",
+    },
+  ];
+  
+  // The main function sends a fetch request to create the capability
+  // Once the capability is created, it is assigned to each resource
+  // A subscription is made for these resources
+  async function main() {
+    const capability = await fetch("http://10.10.10.104:8000/catalog/capabilities", { // Request to create capability
+        method: "POST", // POST method
+        headers: { // Request headers
+            "Content-Type": "application/json", // Request content type
+        },
+        body: JSON.stringify({
+            name: "sensor-temperature", // Name of the capability being created
+            description: `Capability for temperature sensor`, // Defines capability description
+            capability_type: "sensor", // Capability type (sensor)
+        }),
+    });
+  
+    console.log(capability.status); // Request status for capability creation
+    if (capability.status !== 201) {
+        console.log("Error creating capability");
+        return;
+    }
+  
+    for (const resource of stations) { // For each station resource
+        const sendData = resource; // Resource data
+        const result = await fetch("http://10.10.10.104:8000/adaptor/resources", { // Request to create resource
+            method: "POST", // POST method
+            headers: { // Request headers
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ data: sendData }), // Request body with resource data
+        });
+        console.log(result.status); // Request status for resource creation
+  
+        const data = (await result.json()).data; // Created resource data (uuid, capabilities)
+        if (result.status === 500) {
+            return;
+        }
+  
+        const subscription = await fetch( // Request to create resource subscription
+            "http://10.10.10.104:8000/adaptor/subscriptions", // Request URL
+            {
+                method: "POST", // POST method
+                headers: { // Request headers
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ // Request body
+                    subscription: { // Subscription data
+                        uuid: data.uuid, // Resource UUID
+                        capabilities: data.capabilities, // Resource capabilities
+                        url: `http://10.10.10.1:8000/webhook/${data.uuid}`, // Resource webhook URL (adapter URL)
+                    },
+                }),
+            }
+        );
+        console.log(subscription.status); // Request status for subscription creation
+        if (subscription.status === 500) {
+            return;
+        }
+    }
   }
-
-  for (const recurso of seasons) { // Para cada recurso de estação
-      const sendData = recurso; // Dados do recurso
-      const result = await fetch("http://10.10.10.104:8000/adaptor/resources", { // Requisição para criar o recurso
-          method: "POST", // Método POST
-          headers: { // Headers da requisição
-              "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ data: sendData }), // Corpo da requisição com os dados do recurso
-      });
-      console.log(result.status); // Status da requisição de criação do recurso
-
-      const data = (await result.json()).data; // Dados do recurso criado (uuid, capabilities)
-      if (result.status === 500) {
-          return;
-      }
-
-      const subscription = await fetch( // Requisição para criar a subscrição do recurso
-          "http://10.10.10.104:8000/adaptor/subscriptions", // URL da requisição
-          {
-              method: "POST", // Método POST
-              headers: { // Headers da requisição
-                  "Content-Type": "application/json",
-              },
-              body: JSON.stringify({ // Corpo da requisição
-                  subscription: { // Dados da subscrição
-                      uuid: data.uuid, // UUID do recurso
-                      capabilities: data.capabilities, // Capacidades do recurso
-                      url: `http://10.10.10.1:8000/webhook/${data.uuid}`, // URL do webhook do recurso (URL do adaptador)
-                  },
-              }),
-          }
-      );
-      console.log(subscription.status); // Status da requisição de criação da subscrição
-      if (subscription.status === 500) {
-          return;
-      }
-  }
-}
-
-main(); // Início
+  
+  main(); // Start
+  

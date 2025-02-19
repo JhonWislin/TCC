@@ -4,14 +4,14 @@ import './App.css';
 
 const IP_ADDRESS = 'http://10.10.10.104:8000';
 
-// Sensores fictícios por padrão
-// São Criados 9 sensores por default
-const defaultSensors = Array.from({ length: 9 }, (_, id) => ({
-  uuid: `Sem Sensor-${id + 1}`,
+// Dummy stations by default
+// 9 stations are created by default
+const defaultStations = Array.from({ length: 9 }, (_, id) => ({
+  uuid: `Sem estação-${id + 1}`,
   description: `station-${id + 1}`,
   lastTemperature: 60,
   lastDate: new Date().toISOString(),
-  alertInc: false, // Indica se a temperatura está fora do limite de incêndio
+  alertInc: false, // Indicates if the temperature is outside the fire limit
   alertAscParcLimit: false, // Indica se a temperatura está parcialmente acima do limite
   alertAscLimit: false, // Indica se a temperatura está acima do limite
   alertAscAltLimit: false, // Indica se a temperatura está muito acima do limite
@@ -21,11 +21,11 @@ const defaultSensors = Array.from({ length: 9 }, (_, id) => ({
 }));
 
 function App() {
-  const [sensors, setSensors] = useState(defaultSensors); // Seta os sensores por padrão
+  const [sensors, setStations] = useState(defaultStations); // Seta as estações por padrão
   const [minTemp, setMinTemp] = useState(15); // Temperatura mínima, o estádo inicial é colocado como 15 °C
   const [maxTemp, setMaxTemp] = useState(25); // Temperatura máxima, o estádo inicial é colocado como 25 °C
 
-  // // Função para buscar sensores reais
+  // // Função para buscar recursos reais
   // const buscaSensores = async () => {
   //   try {
   //     const response = await fetch(`${IP_ADDRESS}/discovery/resources?capability=sensor-temperature`);
@@ -33,55 +33,68 @@ function App() {
   //     const data = await response.json();
 
   //     if (data.resources?.length > 0) {
-  //       const realSensors = data.resources.map(sensor => ({
-  //         uuid: sensor.uuid,
-  //         description: sensor.description,
+  //       const realSensors = data.resources.map(resource => ({
+  //         uuid: resource.uuid,
+  //         description: resource.description,
   //         lastTemperature: '-',
   //         lastDate: '-',
   //         alert: false,
   //         alertInc: false,
   //       }));
-  //       setSensors(realSensors);
+  //       setStations(realSensors);
   //     }
   //   } catch (error) {
   //     console.error('Erro ao buscar sensores reais:', error);
   //   }
   // };
 
-  // Função para buscar temperaturas
-  const buscaTemperaturas = async sensorsList => {
+  // Function to search for temperatures
+  const searchTemperatures = async (resourceList) => {
     try {
-      const updatedSensors = await Promise.all(
-        sensorsList.map(async sensor => {
-          if (sensor.uuid.startsWith('Sem Sensor')) return sensor; // Ignora sensores fictícios
-
-          const response = await fetch(`${IP_ADDRESS}/collector/resources/${sensor.uuid}/data`); //Faz requisição para obter historico de dados de cada sensor
-          // if (!response.ok) throw new Error(`Erro ao buscar dados do sensor ${sensor.uuid}`);
+      const updatedResources = await Promise.all(
+        resourceList.map(async (resource) => {
+          if (resource.uuid.startsWith('Sem Estação')) return resource; // Ignore dummy resources
+  
+          const response = await fetch(`${IP_ADDRESS}/collector/resources/${resource.uuid}/data`);
           const data = await response.json();
-
-          const lastRecord =
-            data.resources?.[0]?.capabilities?.['sensor-temperature']?.slice(-1)[0] || null;
-
-          const lastTemperature = lastRecord?.value; //Ultima temperatura
-          const lastDate = lastRecord?.date; //Data de medição do dado
-            
+  
+          const temperatureRecords = data.resources?.[0]?.capabilities?.['sensor-temperature'] || [];
+          let lastTemperature = null;
+          let lastDate = null;
+  
+          if (temperatureRecords.length > 999) {
+            let validTemperature = null;
+            while (validTemperature === null && temperatureRecords.length > 0) {
+              const randomIndex = Math.floor(Math.random() * temperatureRecords.length);
+              validTemperature = temperatureRecords[randomIndex]?.value || null;
+            }
+            lastTemperature = validTemperature;
+            lastDate = new Date().toISOString(); // Usa a data atual
+          } else {
+            const lastRecord = temperatureRecords.slice(-1)[0] || null;
+            lastTemperature = lastRecord?.value || null;
+            lastDate = lastRecord?.date || null;
+          }
+  
           return {
-            ...sensor,
+            ...resource,
             lastTemperature,
             lastDate,
           };
         })
       );
-      return updatedSensors;
+  
+      return updatedResources;
     } catch (error) {
       console.error('Erro ao buscar temperaturas:', error);
-      return sensorsList;
+      return resourceList;
     }
   };
+  
 
-  // Função para verificar alertas
-  const verificaTemperaturas = useCallback(updatedSensors => {
-    return updatedSensors.map(sensor => {
+  // Function to check alerts
+  const checkTemperatures = useCallback(updatedResources => {
+    return updatedResources.map(resource => {
 
       let alertInc = false;
       let alertAscParcLimit = false;
@@ -91,8 +104,8 @@ function App() {
       let alertDecLimit = false;
       let alertDecAltLimit = false;
 
-      if (sensor.lastTemperature !== '-' && sensor.lastTemperature > maxTemp) {
-        let variaTemperaturaMax = Math.abs(sensor.lastTemperature - maxTemp)
+      if (resource.lastTemperature !== '-' && resource.lastTemperature > maxTemp) {
+        let variaTemperaturaMax = Math.abs(resource.lastTemperature - maxTemp)
         console.log(variaTemperaturaMax)
         //Temperatura parcialmente acima do limite
         if (variaTemperaturaMax <= 5) {
@@ -112,29 +125,26 @@ function App() {
           alertInc = true;
         }
       }
-      else if (sensor.lastTemperature !== '-' && sensor.lastTemperature < minTemp) {
-        let variaTemperaturaMin = Math.abs(sensor.lastTemperature - minTemp)
+      else if (resource.lastTemperature !== '-' && resource.lastTemperature < minTemp) {
+        let variaTemperaturaMin = Math.abs(resource.lastTemperature - minTemp)
         //Temperatura parcialmente abaixo do limite
         if (variaTemperaturaMin <= 5) {
           alertDecParcLimit = true;
         }
 
         //Temperatura abaixo do limite
-        else if (variaTemperaturaMin <= 10 && variaTemperaturaMin > 5) {
+        else if (variaTemperaturaMin > 5 && variaTemperaturaMin <= 10) {
           alertDecLimit = true;
         }
 
         //Temperatura muito abaixo do limite
-        else if (variaTemperaturaMin > 10 && variaTemperaturaMin <= 15) {
+        else {
           alertDecAltLimit = true;
-        }
-        else { //15 °C acima, principio de incêndio 
-          alertInc = true;
         }
       }
 
       return {
-        ...sensor,
+        ...resource,
         alertAscParcLimit,
         alertAscLimit,
         alertAscAltLimit,
@@ -147,16 +157,16 @@ function App() {
   }, [minTemp, maxTemp]);
 
   // Função principal que chama as outras
-  const updateSensors = useCallback(async () => {
+  const updateStations = useCallback(async () => {
     try {
       // Busca sensores reais
       const response = await fetch(`${IP_ADDRESS}/discovery/resources?capability=sensor-temperature`);
       const data = await response.json();
       
       // Atualiza sensores com os reais encontrados, se houver
-      const realSensors = data.resources?.map(sensor => ({
-        uuid: sensor.uuid,
-        description: sensor.description,
+      const realSensors = data.resources?.map(resource => ({
+        uuid: resource.uuid,
+        description: resource.description,
         lastTemperature: '-',
         lastDate: '-',
         alert: false,
@@ -167,40 +177,40 @@ function App() {
         alertDecLimit: false,
         alertDecParcLimit: false,
         alertInc: false,
-      })) || defaultSensors;
+      })) || defaultStations;
   
       // Busca as temperaturas para os sensores
-      const updatedSensors = await buscaTemperaturas(realSensors);
+      const updatedResources = await searchTemperatures(realSensors);
   
-      // Verifica alertas nos sensores
-      const verificaSensors = verificaTemperaturas(updatedSensors);
+      // Verifica alertas
+      const checkAlerts = checkTemperatures(updatedResources);
   
-      // Atualiza o estado com os sensores verificados
-      setSensors(verificaSensors);
+      // Atualiza o estado com as estações verificados
+      setStations(checkAlerts);
 
     } catch (error) {
       console.error('Erro ao atualizar sensores:', error);
     }
-  }, [verificaTemperaturas]);
+  }, [checkTemperatures]);
 
-const getCardClass = (sensor) => {
+const getCardClass = (resource) => {
   const baseClass = "card"; // Classe base
-  if (sensor.alertInc) return `${baseClass} alert-incendio`; // Alerta de incêndio
-  if (sensor.alertAscAltLimit) return `${baseClass} alert-muito-acima`;
-  if (sensor.alertAscLimit) return `${baseClass} alert-acima`;
-  if (sensor.alertAscParcLimit) return `${baseClass} alert-parcial-acima`;
-  if (sensor.alertDecAltLimit) return `${baseClass} alert-muito-abaixo`;
-  if (sensor.alertDecLimit) return `${baseClass} alert-abaixo`;
-  if (sensor.alertDecParcLimit) return `${baseClass} alert-parcial-abaixo`;
+  if (resource.alertInc) return `${baseClass} alert-incendio`; // Alerta de incêndio
+  if (resource.alertAscAltLimit) return `${baseClass} alert-muito-acima`;
+  if (resource.alertAscLimit) return `${baseClass} alert-acima`;
+  if (resource.alertAscParcLimit) return `${baseClass} alert-parcial-acima`;
+  if (resource.alertDecAltLimit) return `${baseClass} alert-muito-abaixo`;
+  if (resource.alertDecLimit) return `${baseClass} alert-abaixo`;
+  if (resource.alertDecParcLimit) return `${baseClass} alert-parcial-abaixo`;
   return baseClass; // Sem alertas
 };
 
   // Ciclo principal
   useEffect(() => {
-    updateSensors(); // Executa a primeira atualização
-    const interval = setInterval(updateSensors, 15000); // Roda a cada 15 segundos
+    updateStations(); // Executa a primeira atualização
+    const interval = setInterval(updateStations, 15000); // Roda a cada 15 segundos
     return () => clearInterval(interval); // Limpa o intervalo ao desmontar
-  }, [updateSensors]);
+  }, [updateStations]);
 
   return (
     <div>
@@ -227,25 +237,25 @@ const getCardClass = (sensor) => {
       </div>
 
       <div className="card-container">
-        {sensors.map(sensor => (
-          <div key={sensor.uuid} className={getCardClass(sensor)}>
-            <h3>{sensor.description}</h3>
-            <p><strong>UUID:</strong> {sensor.uuid}</p>
+        {sensors.map(resource => (
+          <div key={resource.uuid} className={getCardClass(resource)}>
+            <h3>{resource.description}</h3>
+            <p><strong>UUID:</strong> {resource.uuid}</p>
             <p>
               <strong>Última Temperatura:</strong>{' '}
-              {sensor.lastTemperature !== '-' ? `${sensor.lastTemperature}°C` : '-'}
+              {resource.lastTemperature !== '-' ? `${resource.lastTemperature}°C` : '-'}
             </p>
             <p>
               <strong>Última Atualização:</strong>{' '}
-              {sensor.lastDate !== '-' ? new Date(sensor.lastDate).toLocaleString() : '-'}
+              {resource.lastDate !== '-' ? new Date(resource.lastDate).toLocaleString() : '-'}
             </p>
-            {sensor.alertAscParcLimit && !sensor.alertInc && <p><strong>⚠️ Temperatura parcialmente acima do limite permitido!</strong></p>}
-            {sensor.alertAscLimit && !sensor.alertInc && <p><strong>⚠️ Temperatura acima do limite permitido!</strong></p>}
-            {sensor.alertAscAltLimit && !sensor.alertInc && <p><strong>⚠️ Temperatura muito acima do limite permitido!</strong></p>}
-            {sensor.alertDecParcLimit && !sensor.alertInc && <p><strong>⚠️ Temperatura parcialmente abaixo do limite permitido!</strong></p>}
-            {sensor.alertDecLimit && !sensor.alertInc && <p><strong>⚠️ Temperatura abaixo do limite permitido!</strong></p>}
-            {sensor.alertDecAltLimit && !sensor.alertInc && <p><strong>⚠️ Temperatura muito abaixo do limite permitido!</strong></p>}
-            {sensor.alertInc && <p><strong>⚠️ Possível principio de incêndio!</strong></p>}
+            {resource.alertAscParcLimit && !resource.alertInc && <p><strong>⚠️ Temperatura parcialmente acima do limite permitido!</strong></p>}
+            {resource.alertAscLimit && !resource.alertInc && <p><strong>⚠️ Temperatura acima do limite permitido!</strong></p>}
+            {resource.alertAscAltLimit && !resource.alertInc && <p><strong>⚠️ Temperatura muito acima do limite permitido!</strong></p>}
+            {resource.alertDecParcLimit && !resource.alertInc && <p><strong>⚠️ Temperatura parcialmente abaixo do limite permitido!</strong></p>}
+            {resource.alertDecLimit && !resource.alertInc && <p><strong>⚠️ Temperatura abaixo do limite permitido!</strong></p>}
+            {resource.alertDecAltLimit && !resource.alertInc && <p><strong>⚠️ Temperatura muito abaixo do limite permitido!</strong></p>}
+            {resource.alertInc && <p><strong>⚠️ Possível principio de incêndio!</strong></p>}
           </div>
         ))}
       </div>

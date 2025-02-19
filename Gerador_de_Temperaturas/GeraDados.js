@@ -12,34 +12,34 @@ const geraTemperatura = (min, max) =>
   Math.floor(Math.random() * (max - min + 1)) + min;
 
 // Array para armazenar os sensores
-let sensoresMetro = [];
+let stations = [];
 
 // Função para buscar sensores reais
-const buscaSensores = async () => {
+const searchResources = async () => {
   try {
     const response = await fetch(`http://10.10.10.104:8000/discovery/resources?capability=sensor-temperature`);
 
     const data = await response.json();
 
     if (data.resources?.length > 0) {
-      sensoresMetro = data.resources.map(sensor => ({
-        uuid: sensor.uuid,
+      stations = data.resources.map(station => ({
+        uuid: station.uuid,
       }));
     }
   } catch (error) {
-    console.error('Erro ao buscar sensores reais:', error);
+    console.error('Erro ao buscar estações reais:', error);
   }
 };
 
 // Função para gerar e enviar temperaturas
-const atualizaSensores = async () => {
+const updateTemperature = async () => {
   try {
-    for (const sensor of sensoresMetro) {
+    for (const station of stations) {
       
       const newTemperature = geraTemperatura(TEMP_MIN, TEMP_MAX); // Gera temperatura
 
       // Envia a nova temperatura para o servidor
-      const response = await fetch(`http://10.10.10.104:8000/adaptor/resources/${sensor.uuid}/data`, {
+      const response = await fetch(`http://10.10.10.104:8000/adaptor/resources/${station.uuid}/data`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,8 +63,8 @@ const atualizaSensores = async () => {
 
 //Processo principal
 const main = async () => {
-  await buscaSensores(); //Busca UUID dos sensores
-  setInterval(atualizaSensores, 15000); //Com base nos UUIDs, gera e envia temperaturas a cada 15 segundos
+  await searchResources(); //Busca UUID dos resources
+  setInterval(updateTemperature, 15000); //Com base nos UUIDs, gera e envia temperaturas a cada 15 segundos
 };
 
 // Executa o script
