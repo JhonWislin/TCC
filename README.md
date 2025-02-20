@@ -5,9 +5,9 @@ Repositorio para armazenar arquivos do TCC.
 - monitor-temperatura: Aplicação para monitoramento de temperaturas em estações de metro.
 - Gerador_de_Temperaturas: Sripts para gerar as capacidades e recursos dentro da plataforma interscity.
 
-#Pré-Requisitos
+# Pré-Requisitos
 
-- Plataforma InterScity;
+- Plataforma InterSCity;
 - yarn;
 - node;
 
