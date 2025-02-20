@@ -1,0 +1,188 @@
+jhon@jhon:~/interscity-platform-Standalone-version-merge-from-interscity/deploy$ curl -X GET 'http://10.10.10.104:8000/catalog/resources' -H 'Accept: application/json' | json_pp
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  7922    0  7922    0     0  21367      0 --:--:-- --:--:-- --:--:-- 21410
+{
+   "resources" : [
+      {
+         "capabilities" : [
+            "sensor-temperature"
+         ],
+         "city" : null,
+         "collect_interval" : null,
+         "country" : null,
+         "created_at" : "2024-11-12T11:20:04.193Z",
+         "description" : "station-9",
+         "id" : 21,
+         "lat" : -23.5158948777673,
+         "lon" : -47.4656380735414,
+         "neighborhood" : null,
+         "postal_code" : null,
+         "state" : null,
+         "status" : "active",
+         "updated_at" : "2024-11-12T11:20:04.193Z",
+         "uri" : null,
+         "uuid" : "dcd35c35-3688-45da-8c75-ffcdfe61692c"
+      },
+      {
+         "capabilities" : [
+            "sensor-temperature"
+         ],
+         "city" : null,
+         "collect_interval" : null,
+         "country" : null,
+         "created_at" : "2024-11-12T11:20:04.060Z",
+         "description" : "station-8",
+         "id" : 20,
+         "lat" : -23.5158948777673,
+         "lon" : -47.4656080735814,
+         "neighborhood" : null,
+         "postal_code" : null,
+         "state" : null,
+         "status" : "active",
+         "updated_at" : "2024-11-12T11:20:04.060Z",
+         "uri" : null,
+         "uuid" : "8bc0d9f8-203e-4792-ab7f-af51071e8435"
+      },
+      {
+         "capabilities" : [
+            "sensor-temperature"
+         ],
+         "city" : null,
+         "collect_interval" : null,
+         "country" : null,
+         "created_at" : "2024-11-12T11:20:03.920Z",
+         "description" : "station-7",
+         "id" : 19,
+         "lat" : -23.5158948777673,
+         "lon" : -47.4006080735414,
+         "neighborhood" : null,
+         "postal_code" : null,
+         "state" : null,
+         "status" : "active",
+         "updated_at" : "2024-11-12T11:20:03.920Z",
+         "uri" : null,
+         "uuid" : "a6e40b36-4265-42f8-98d9-9a32df35647c"
+      },
+      {
+         "capabilities" : [
+            "sensor-temperature"
+         ],
+         "city" : null,
+         "collect_interval" : null,
+         "country" : null,
+         "created_at" : "2024-11-12T11:20:03.770Z",
+         "description" : "station-6",
+         "id" : 18,
+         "lat" : -22.5158948777673,
+         "lon" : -47.4656080735414,
+         "neighborhood" : null,
+         "postal_code" : null,
+         "state" : null,
+         "status" : "active",
+         "updated_at" : "2024-11-12T11:20:03.770Z",
+         "uri" : null,
+         "uuid" : "30435e11-7200-40e8-a1fb-edaf720e5d7a"
+      },
+      {
+         "capabilities" : [
+            "sensor-temperature"
+         ],
+         "city" : null,
+         "collect_interval" : null,
+         "country" : null,
+         "created_at" : "2024-11-12T11:20:03.595Z",
+         "description" : "station-5",
+         "id" : 17,
+         "lat" : -23.5158948778673,
+         "lon" : -45.4656080735414,
+         "neighborhood" : null,
+         "postal_code" : null,
+         "state" : null,
+         "status" : "active",
+         "updated_at" : "2024-11-12T11:20:03.595Z",
+         "uri" : null,
+         "uuid" : "737179cd-6689-4fa2-99a8-361721d64e7b"
+      },
+      {
+         "capabilities" : [
+            "sensor-temperature"
+         ],
+         "city" : null,
+         "collect_interval" : null,
+         "country" : null,
+         "created_at" : "2024-11-12T11:20:03.444Z",
+         "description" : "station-4",
+         "id" : 16,
+         "lat" : -28.5158948777673,
+         "lon" : -42.4656080735414,
+         "neighborhood" : null,
+         "postal_code" : null,
+         "state" : null,
+         "status" : "active",
+         "updated_at" : "2024-11-12T11:20:03.444Z",
+         "uri" : null,
+         "uuid" : "2152ce60-95b1-4d4a-bd6c-ed4c372e6e2a"
+      },
+      {
+         "capabilities" : [
+            "sensor-temperature"
+         ],
+         "city" : null,
+         "collect_interval" : null,
+         "country" : null,
+         "created_at" : "2024-11-12T11:20:03.293Z",
+         "description" : "station-3",
+         "id" : 15,
+         "lat" : -27.5158948777673,
+         "lon" : -45.4656080735414,
+         "neighborhood" : null,
+         "postal_code" : null,
+         "state" : null,
+         "status" : "active",
+         "updated_at" : "2024-11-12T11:20:03.293Z",
+         "uri" : null,
+         "uuid" : "63b4521e-35a5-4bb6-983b-6779a646dc81"
+      },
+      {
+         "capabilities" : [
+            "sensor-temperature"
+         ],
+         "city" : null,
+         "collect_interval" : null,
+         "country" : null,
+         "created_at" : "2024-11-12T11:20:03.141Z",
+         "description" : "station-2",
+         "id" : 14,
+         "lat" : -29.5158948777673,
+         "lon" : -49.4656080835414,
+         "neighborhood" : null,
+         "postal_code" : null,
+         "state" : null,
+         "status" : "active",
+         "updated_at" : "2024-11-12T11:20:03.141Z",
+         "uri" : null,
+         "uuid" : "9e767a7e-4183-413c-8cfe-57f707666e59"
+      },
+      {
+         "capabilities" : [
+            "sensor-temperature"
+         ],
+         "city" : null,
+         "collect_interval" : null,
+         "country" : null,
+         "created_at" : "2024-11-12T11:20:02.405Z",
+         "description" : "station-1",
+         "id" : 13,
+         "lat" : -23.5158948777673,
+         "lon" : -47.4656080735414,
+         "neighborhood" : null,
+         "postal_code" : null,
+         "state" : null,
+         "status" : "active",
+         "updated_at" : "2024-11-12T11:20:02.405Z",
+         "uri" : null,
+         "uuid" : "060ace59-44d0-4436-987b-654cc5d0467c"
+      }
+   ]
+}
